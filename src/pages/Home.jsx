@@ -161,18 +161,18 @@ export default function Home() {
         </div>
 
         {/* Hero content */}
-        <div className="relative z-10 flex flex-col items-center justify-center flex-1 pt-20 sm:pt-28 lg:pt-44 xl:pt-56 pb-12 px-12 sm:px-24 lg:px-52 text-center">
-          <h1 className="animate-fade-in-up delay-200 font-allura text-6xl sm:text-7xl md:text-8xl lg:text-9xl tracking-widest2 text-mauve-800 uppercase leading-none mb-2">
+        <div className="relative z-10 flex flex-col items-center justify-center flex-1 pt-10 sm:pt-16 lg:pt-28 xl:pt-40 pb-12 px-12 sm:px-24 lg:px-52 text-center">
+          <h1 className="animate-fade-in-up delay-200 font-allura text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] text-mauve-800 leading-none mb-2">
             Avinash
           </h1>
 
           <div className="animate-fade-in-up delay-300 flex items-center gap-3 my-2">
             <FloralSprig />
-            <p className="font-serif text-xl md:text-2xl text-mauve-500 italic">and</p>
+            <p className="font-allura text-3xl md:text-4xl text-mauve-500">and</p>
             <FloralSprig />
           </div>
 
-          <h1 className="animate-fade-in-up delay-400 font-allura text-6xl sm:text-7xl md:text-8xl lg:text-9xl tracking-widest2 text-mauve-800 uppercase leading-none mb-8">
+          <h1 className="animate-fade-in-up delay-400 font-allura text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] text-mauve-800 leading-none mb-8">
             Ananya
           </h1>
 
