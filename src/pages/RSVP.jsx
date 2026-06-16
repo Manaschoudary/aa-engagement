@@ -223,7 +223,7 @@ export default function RSVP() {
               <div className="mb-6">
                 <label className="form-label">Additional Guests</label>
                 <p className="font-sans text-xs text-mauve-400 mb-3">
-                  How many additional guests are you bringing? (0 – 8)
+                  How many additional guests will be accompanying you ? (0 – 8)
                 </p>
                 <div className="flex items-center gap-4">
                   <button
