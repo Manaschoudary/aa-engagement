@@ -95,6 +95,8 @@ function WelcomeVideo() {
   const [playing, setPlaying]= useState(true);
   const [hasVideo, setHasVideo] = useState(false);
   const [hasTrackedPlay, setHasTrackedPlay] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
 
   useEffect(() => {
     fetch('/videos/welcome.mp4', { method: 'HEAD' })
@@ -108,19 +110,36 @@ function WelcomeVideo() {
     }
   }, [hasVideo]);
 
-  useEffect(() => {
-    if (!videoRef.current || hasTrackedPlay) return;
-
-    const checkVideoTime = setInterval(() => {
-      if (videoRef.current && videoRef.current.currentTime >= 10) {
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      setCurrentTime(videoRef.current.currentTime);
+      if (!hasTrackedPlay && videoRef.current.currentTime >= 10) {
         trackEvent('video_play');
         setHasTrackedPlay(true);
-        clearInterval(checkVideoTime);
       }
-    }, 500);
+    }
+  };
 
-    return () => clearInterval(checkVideoTime);
-  }, [hasTrackedPlay]);
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      setDuration(videoRef.current.duration);
+    }
+  };
+
+  const handleSeek = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const percent = (e.clientX - rect.left) / rect.width;
+    if (videoRef.current) {
+      videoRef.current.currentTime = percent * videoRef.current.duration;
+    }
+  };
+
+  const formatTime = (time) => {
+    if (!time || isNaN(time)) return '0:00';
+    const mins = Math.floor(time / 60);
+    const secs = Math.floor(time % 60);
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  };
 
   const toggleMute = (e) => {
     e.stopPropagation();
@@ -158,7 +177,25 @@ function WelcomeVideo() {
         className="w-full block"
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
       />
+
+      {/* Progress bar */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-1 bg-mauve-200 cursor-pointer group-hover:h-2 transition-all"
+        onClick={handleSeek}
+      >
+        <div
+          className="h-full bg-mauve-600 transition-all"
+          style={{ width: duration ? `${(currentTime / duration) * 100}%` : '0%' }}
+        />
+      </div>
+
+      {/* Time display */}
+      <div className="absolute bottom-16 left-4 text-white text-xs bg-black/60 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+        {formatTime(currentTime)} / {formatTime(duration)}
+      </div>
 
       {/* Controls overlay — visible on hover */}
       <div className="absolute inset-0 flex items-end justify-between p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/20 to-transparent">
