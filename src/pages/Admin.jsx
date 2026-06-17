@@ -379,7 +379,7 @@ export default function Admin() {
   const getFilteredAnalytics = (filteredVisitors) => {
     return {
       totalPageViews: analytics.totalPageViews,
-      uniqueVisitors: filteredVisitors.length,
+      uniqueVisitors: analytics.uniqueVisitors,
       totalVideoPlays: analytics.totalVideoPlays,
       uniqueVideoViewers: analytics.uniqueVideoViewers,
     };
@@ -540,7 +540,7 @@ export default function Admin() {
                 : 'bg-white text-mauve-600 hover:bg-mauve-50'
             }`}
           >
-            Visitors ({filteredVisitors.length})
+            Visit Logs ({filteredVisitors.length})
           </button>
         </div>
 
@@ -692,13 +692,13 @@ export default function Admin() {
             <StatCard label="Video Viewers (Unique)" value={filteredAnalytics.uniqueVideoViewers} color="red" />
           </div>
 
-          {/* Visitors Table */}
+          {/* Visit Logs Table */}
           <div className="bg-white rounded-xl border border-mauve-100 overflow-hidden">
             {filteredVisitors.length === 0 ? (
               <div className="py-20 text-center">
                 <Eye className="w-10 h-10 text-mauve-200 mx-auto mb-3" />
                 <p className="font-sans text-sm text-mauve-400">
-                  {visitors.length === 0 ? 'No visitor data yet' : 'No visitors in this time range'}
+                  {visitors.length === 0 ? 'No visit logs yet' : 'No visit logs in this time range'}
                 </p>
               </div>
             ) : (
@@ -714,7 +714,7 @@ export default function Admin() {
                   </thead>
                   <tbody>
                     {filteredVisitors.map((visitor, i) => (
-                      <tr key={i} className="border-b border-mauve-100 hover:bg-mauve-50/40 transition-colors">
+                      <tr key={visitor.id || `${visitor.sessionId}-${visitor.visitedAt}-${i}`} className="border-b border-mauve-100 hover:bg-mauve-50/40 transition-colors">
                         <td className="py-3 px-4 font-sans text-sm text-mauve-700">
                           {new Date(visitor.visitedAt).toLocaleString()}
                         </td>
@@ -751,7 +751,7 @@ export default function Admin() {
             {filteredVisitors.length > 0 && (
               <div className="px-4 py-3 border-t border-mauve-100 bg-mauve-50/40">
                 <p className="font-sans text-xs text-mauve-400">
-                  Showing {filteredVisitors.length} visitor{filteredVisitors.length !== 1 ? 's' : ''} {timeFilter !== 'all' && `(${timeFilter})`}
+                  Showing {filteredVisitors.length} visit log{filteredVisitors.length !== 1 ? 's' : ''} {timeFilter !== 'all' && `(${timeFilter})`}
                 </p>
               </div>
             )}
