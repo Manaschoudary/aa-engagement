@@ -108,6 +108,20 @@ function WelcomeVideo() {
     }
   }, [hasVideo]);
 
+  useEffect(() => {
+    if (!videoRef.current || hasTrackedPlay) return;
+
+    const checkVideoTime = setInterval(() => {
+      if (videoRef.current && videoRef.current.currentTime >= 10) {
+        trackEvent('video_play');
+        setHasTrackedPlay(true);
+        clearInterval(checkVideoTime);
+      }
+    }, 500);
+
+    return () => clearInterval(checkVideoTime);
+  }, [hasTrackedPlay]);
+
   const toggleMute = (e) => {
     e.stopPropagation();
     if (!videoRef.current) return;
@@ -119,14 +133,6 @@ function WelcomeVideo() {
     if (!videoRef.current) return;
     if (playing) { videoRef.current.pause(); setPlaying(false); }
     else         { videoRef.current.play();  setPlaying(true);  }
-  };
-
-  const handleVideoPlay = () => {
-    setPlaying(true);
-    if (!hasTrackedPlay) {
-      trackEvent('video_play');
-      setHasTrackedPlay(true);
-    }
   };
 
   if (!hasVideo) {
@@ -150,7 +156,7 @@ function WelcomeVideo() {
         loop
         playsInline
         className="w-full block"
-        onPlay={handleVideoPlay}
+        onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
       />
 

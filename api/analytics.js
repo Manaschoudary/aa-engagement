@@ -12,19 +12,21 @@ function getClientIp(req) {
 }
 
 async function getLocationFromIP(ip) {
-  if (ip === 'unknown' || ip === '::1' || ip === '127.0.0.1') {
+  if (ip === 'unknown' || ip === '::1' || ip === '127.0.0.1' || ip?.startsWith('192.168') || ip?.startsWith('10.')) {
     return null;
   }
   try {
     const res = await fetch(`https://ip-api.com/json/${ip}?fields=country,city`);
+    if (!res.ok) return null;
     const data = await res.json();
-    if (data.status === 'success') {
+    if (data.status === 'success' && data.city && data.country) {
       return `${data.city}, ${data.country}`;
     }
+    return null;
   } catch (err) {
     console.error('Location lookup error:', err);
+    return null;
   }
-  return null;
 }
 
 export default async function handler(req, res) {
