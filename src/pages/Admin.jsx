@@ -445,23 +445,21 @@ export default function Admin() {
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this RSVP entry?')) return;
     try {
-      await axios.delete(`/api/guests/${id}`);
-    } catch {
-      const stored = JSON.parse(localStorage.getItem('rsvps') || '[]');
-      localStorage.setItem('rsvps', JSON.stringify(stored.filter(r => r.id !== id)));
+      await axios.delete(`/api/guests?id=${id}`);
+      setRsvps(prev => prev.filter(r => (r._id || r.id) !== id));
+    } catch (err) {
+      console.error('Delete failed:', err);
+      alert('Failed to delete entry. Please try again.');
     }
-    setRsvps(prev => prev.filter(r => (r._id || r.id) !== id));
   };
 
   const handleSave = async (id, updatedData) => {
     try {
-      await axios.patch(`/api/guests/${id}`, updatedData);
-    } catch {
-      // localStorage fallback
-      const stored = JSON.parse(localStorage.getItem('rsvps') || '[]');
-      localStorage.setItem('rsvps', JSON.stringify(
-        stored.map(r => r.id === id ? { ...r, ...updatedData } : r)
-      ));
+      await axios.patch(`/api/guests?id=${id}`, updatedData);
+    } catch (err) {
+      console.error('Save failed:', err);
+      alert('Failed to save changes. Please try again.');
+      return;
     }
     setRsvps(prev => prev.map(r =>
       (r._id || r.id) === id ? { ...r, ...updatedData } : r

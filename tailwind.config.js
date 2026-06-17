@@ -46,8 +46,9 @@ export default {
         },
       },
       fontFamily: {
-        serif: ['"Cormorant Garamond"', '"EB Garamond"', 'Georgia', 'serif'],
-        sans:  ['"Lato"', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+        serif:  ['"Cormorant Garamond"', '"EB Garamond"', 'Georgia', 'serif'],
+        sans:   ['"Lato"', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+        allura: ['"Allura"', 'cursive'],
       },
       letterSpacing: {
         widest2: '0.3em',

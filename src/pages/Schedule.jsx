@@ -100,7 +100,7 @@ export default function Schedule() {
         <FloralTopBanner className="absolute top-0 left-0 right-0 opacity-60" />
         <div className="relative z-10 py-16 px-4 text-center">
           <p className="font-sans text-xs tracking-widest3 uppercase text-mauve-400 mb-3">July 5, 2026</p>
-          <h1 className="font-serif text-5xl md:text-6xl tracking-widest2 text-mauve-800 uppercase mb-3">
+          <h1 className="font-allura text-6xl md:text-7xl text-mauve-800 mb-3">
             Schedule
           </h1>
           <p className="font-serif italic text-mauve-500 text-lg">

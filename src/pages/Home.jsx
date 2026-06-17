@@ -335,11 +335,11 @@ export default function Home() {
 
           <div className="animate-fade-in-up delay-300 flex items-center gap-3 my-2">
             <FloralSprig />
-            <p className="font-serif text-xl md:text-2xl text-mauve-500 italic">and</p>
+            <p className="font-allura text-3xl md:text-4xl text-mauve-500">and</p>
             <FloralSprig />
           </div>
 
-          <h1 className="animate-fade-in-up delay-400 font-allura text-6xl sm:text-7xl md:text-8xl lg:text-9xl tracking-widest2 text-mauve-800 uppercase leading-none mb-8">
+          <h1 className="animate-fade-in-up delay-400 font-allura text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] text-mauve-800 leading-none mb-8">
             Ananya
           </h1>
 
