@@ -242,22 +242,15 @@ export default async function handler(req, res) {
           .sort({ timestamp: -1 })
           .toArray();
 
-        const visitors = [];
-        const seenSessions = new Set();
-
-        events.forEach(event => {
-          if (!seenSessions.has(event.sessionId)) {
-            seenSessions.add(event.sessionId);
-            visitors.push({
-              sessionId: event.sessionId,
-              visitorName: event.visitorName || 'Anonymous',
-              ipAddress: event.ipAddress,
-              location: event.location,
-              deviceInfo: event.deviceInfo,
-              visitedAt: event.timestamp,
-            });
-          }
-        });
+        const visitors = events.map(event => ({
+          id: event._id?.toString(),
+          sessionId: event.sessionId,
+          visitorName: event.visitorName || 'Anonymous',
+          ipAddress: event.ipAddress,
+          location: event.location,
+          deviceInfo: event.deviceInfo,
+          visitedAt: event.timestamp,
+        }));
 
         return res.status(200).json({ visitors });
       }
