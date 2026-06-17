@@ -42,8 +42,36 @@ export default async function handler(req, res) {
       return res.status(200).json({ success: true });
     }
 
-    // ── GET: retrieve analytics summary ──────────────────────────────────────
+    // ── GET: retrieve analytics ─────────────────────────────────────────────
     if (req.method === 'GET') {
+      // Check for detailed visitor logs first
+      if (req.query.details === 'true') {
+        const events = await col
+          .find({ eventType: 'page_view' })
+          .sort({ timestamp: -1 })
+          .toArray();
+
+        const visitors = [];
+        const seenSessions = new Set();
+
+        events.forEach(event => {
+          if (!seenSessions.has(event.sessionId)) {
+            seenSessions.add(event.sessionId);
+            visitors.push({
+              sessionId: event.sessionId,
+              visitorName: event.visitorName || 'Anonymous',
+              ipAddress: event.ipAddress,
+              location: event.location,
+              deviceInfo: event.deviceInfo,
+              visitedAt: event.timestamp,
+            });
+          }
+        });
+
+        return res.status(200).json({ visitors });
+      }
+
+      // Default: return analytics summary
       const allEvents = await col.find({}).toArray();
 
       const pageViews = allEvents.filter(e => e.eventType === 'page_view').length;
@@ -62,33 +90,6 @@ export default async function handler(req, res) {
         totalVideoPlays: videoPlays,
         uniqueVideoViewers: uniqueVideoSessions,
       });
-    }
-
-    // ── GET with query: retrieve detailed visitor logs ─────────────────────
-    if (req.method === 'GET' && req.query.details === 'true') {
-      const events = await col
-        .find({ eventType: 'page_view' })
-        .sort({ timestamp: -1 })
-        .toArray();
-
-      const visitors = [];
-      const seenSessions = new Set();
-
-      events.forEach(event => {
-        if (!seenSessions.has(event.sessionId)) {
-          seenSessions.add(event.sessionId);
-          visitors.push({
-            sessionId: event.sessionId,
-            visitorName: event.visitorName || 'Anonymous',
-            ipAddress: event.ipAddress,
-            location: event.location,
-            deviceInfo: event.deviceInfo,
-            visitedAt: event.timestamp,
-          });
-        }
-      });
-
-      return res.status(200).json({ visitors });
     }
 
     return res.status(405).json({ error: 'Method not allowed' });
