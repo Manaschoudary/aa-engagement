@@ -1,60 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FloralSprig, FloralTopBanner } from '../components/FloralDecor';
 import { Calendar, Clock, MapPin, Utensils, Music, Star, CalendarPlus } from 'lucide-react';
-
-// ── Calendar invite helpers ───────────────────────────────────────────────────
-
-function toICSDate(dateStr) {
-  // dateStr like '20260708T080000'
-  return dateStr;
-}
-
-function downloadICS() {
-  const icsContent = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//Avinash & Ananya Engagement//EN',
-    'CALSCALE:GREGORIAN',
-    'METHOD:PUBLISH',
-    'BEGIN:VEVENT',
-    'DTSTART:20260705T080000',
-    'DTEND:20260705T140000',
-    'SUMMARY:Avinash & Ananya - Engagement Ceremony',
-    'DESCRIPTION:Join us to celebrate the engagement of Avinash and Ananya!\\n\\nBreakfast & Lunch will be served.\\n\\nAttire: Indian Traditional',
-    'LOCATION:Grandion Event Venue\\, 1810 Parkwood Blvd\\, Frisco\\, TX 75034',
-    'STATUS:CONFIRMED',
-    'SEQUENCE:0',
-    'BEGIN:VALARM',
-    'TRIGGER:-P1D',
-    'ACTION:DISPLAY',
-    'DESCRIPTION:Avinash & Ananya Engagement - Tomorrow!',
-    'END:VALARM',
-    'END:VEVENT',
-    'END:VCALENDAR',
-  ].join('\r\n');
-
-  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href     = url;
-  a.download = 'avinash-ananya-engagement.ics';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
-function getGoogleCalendarUrl() {
-  const base   = 'https://calendar.google.com/calendar/render';
-  const params = new URLSearchParams({
-    action:   'TEMPLATE',
-    text:     'Avinash & Ananya — Engagement Ceremony',
-    dates:    '20260705T080000/20260705T140000',
-    details:  'Join us to celebrate the engagement of Avinash and Ananya!\n\nBreakfast & Lunch will be served.\nAttire: Indian Traditional',
-    location: 'Grandion Event Venue, 1810 Parkwood Blvd, Frisco, TX 75034',
-  });
-  return `${base}?${params.toString()}`;
-}
+import { downloadCalendarInvite, getGoogleCalendarUrl } from '../utils/calendar';
 
 // ── Timeline event component ─────────────────────────────────────────────────
 function TimelineEvent({ time, title, description, icon: Icon, accent = false, last = false }) {
@@ -178,7 +125,7 @@ export default function Schedule() {
 
             {/* Download .ics */}
             <button
-              onClick={downloadICS}
+              onClick={downloadCalendarInvite}
               className="flex items-center justify-center gap-2 btn-secondary text-sm px-6 py-3"
             >
               <Calendar className="w-4 h-4" />

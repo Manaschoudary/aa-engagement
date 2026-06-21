@@ -1,8 +1,9 @@
 import { useRef, useState } from 'react';
 import axios from 'axios';
 import { FloralSprig, FloralTopBanner } from '../components/FloralDecor';
-import { Check, ChevronRight, Users, Phone, Mail, MessageSquare, CalendarPlus } from 'lucide-react';
+import { Check, ChevronRight, Users, Phone, Mail, MessageSquare, Calendar, CalendarPlus } from 'lucide-react';
 import { useVisitAnalytics } from '../utils/analytics';
+import { downloadCalendarInvite, getGoogleCalendarUrl } from '../utils/calendar';
 
 // ── Step indicator ──────────────────────────────────────────────────────────
 function StepDot({ step, current, label }) {
@@ -145,15 +146,28 @@ export default function RSVP() {
               <p className="font-sans text-sm text-mauve-400 mb-8">
                 July 5, 2026 · 8:00 AM · Grandion Event Venue, Frisco TX
               </p>
-              <a
-                href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Avinash+%26+Ananya+%E2%80%94+Engagement+Ceremony&dates=20260705T080000%2F20260705T140000&details=Join+us+to+celebrate+the+engagement+of+Avinash+and+Ananya%21&location=Grandion+Event+Venue%2C+1810+Parkwood+Blvd%2C+Frisco%2C+TX+75034"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 btn-primary text-sm px-6 py-3"
-              >
-                <CalendarPlus className="w-4 h-4" />
-                Add to Google Calendar
-              </a>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <a
+                  href={getGoogleCalendarUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 btn-primary text-sm px-6 py-3"
+                >
+                  <CalendarPlus className="w-4 h-4" />
+                  Google Calendar
+                </a>
+                <button
+                  type="button"
+                  onClick={downloadCalendarInvite}
+                  className="flex items-center justify-center gap-2 btn-secondary text-sm px-6 py-3"
+                >
+                  <Calendar className="w-4 h-4" />
+                  Apple / Outlook
+                </button>
+              </div>
+              <p className="font-sans text-xs text-mauve-400 mt-4">
+                Apple Calendar, Outlook, and most calendar apps accept the .ics format.
+              </p>
             </>
           )}
         </div>
