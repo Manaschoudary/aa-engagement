@@ -463,12 +463,12 @@ export default function RSVP() {
               Your RSVP is not saved yet. Review below, then tap Submit RSVP.
             </p>
 
-            <div className="rounded-lg border border-blush-200 bg-white p-3 mb-6 text-center">
-              <p className="font-sans text-sm font-semibold text-mauve-800">
+            <div className="rounded-lg border border-mauve-800 bg-mauve-800 p-3 mb-6 text-center shadow-sm">
+              <p className="font-sans text-sm font-bold text-white">
                 Not submitted yet
               </p>
-              <p className="font-sans text-xs text-mauve-500 mt-1">
-                The final button is at the bottom of this step.
+              <p className="font-sans text-xs font-medium text-white/90 mt-1">
+                The submission button is at the bottom of this step.
               </p>
             </div>
 
