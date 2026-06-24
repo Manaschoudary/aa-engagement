@@ -459,9 +459,6 @@ export default function RSVP() {
         <div data-analytics-section="RSVP Form" className="max-w-lg mx-auto px-4 pb-20 animate-fade-in-up">
           <div className="card">
             <h2 className="font-serif text-2xl text-mauve-800 mb-1 text-center">Final Step: Submit RSVP</h2>
-            <p className="font-sans text-sm text-mauve-400 text-center mb-6">
-              Your RSVP is not saved yet. Review below, then tap Submit RSVP.
-            </p>
 
             <div className="rounded-lg border border-mauve-800 bg-mauve-800 p-3 mb-6 text-center shadow-sm">
               <p className="font-sans text-sm font-bold text-white">
