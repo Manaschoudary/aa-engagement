@@ -282,9 +282,6 @@ export default function RSVP() {
           <h1 className="font-serif text-5xl md:text-6xl tracking-widest2 text-mauve-800 uppercase mb-2">
             RSVP
           </h1>
-          <p className="font-serif italic text-mauve-500">
-                Please respond by June 25, 2026
-          </p>
         </div>
       </div>
 
